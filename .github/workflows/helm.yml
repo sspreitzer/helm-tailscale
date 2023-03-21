@@ -18,7 +18,7 @@ jobs:
           - tailscale-derp
     steps:
       - name: Checkout Git repository
-        uses: action/checkout@v3
+        uses: actions/checkout@v3
       - name: Setup Helm
         uses: azure/setup-helm@v3
         with:
@@ -28,7 +28,7 @@ jobs:
       - name: Build Helm Chart
         run: helm package charts/${{ matrix.chart }} --destination cache
       - name: Cache Helm Chart
-        uses: action/cache@v3
+        uses: actions/cache@v3
         with:
           path: cache
           key: charts        
