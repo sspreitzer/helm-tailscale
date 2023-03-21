@@ -1,0 +1,34 @@
+name: Helm Charts
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+    paths:
+      - charts/**
+
+jobs:
+  Helm_Build:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        chart:
+          - tailscale-derp
+    steps:
+      - name: Checkout Git repository
+        uses: action/checkout@v3
+      - name: Setup Helm
+        uses: azure/setup-helm@v3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update Helm Chart dependencies
+        run: helm dependency update charts/${{ matrix.chart }}
+      - name: Build Helm Chart
+        run: helm package charts/${{ matrix.chart }} --destination cache
+      - name: Cache Helm Chart
+        uses: action/cache@v3
+        with:
+          path: cache
+          key: charts        
