@@ -26,12 +26,17 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Restore Helm Chart Cache
+        uses: actions/cache/restore@v3
+        with:
+          path: cache
+          key: charts
       - name: Update Helm Chart dependencies
         run: helm dependency update charts/${{ matrix.chart }}
       - name: Build Helm Chart
         run: helm package charts/${{ matrix.chart }} --destination cache
-      - name: Cache Helm Chart
-        uses: actions/cache@v3
+      - name: Save Helm Chart Cache
+        uses: actions/cache/save@v3
         with:
           path: cache
           key: charts
