@@ -52,7 +52,7 @@ jobs:
           path: cache
           key: charts
       - name: Create Helm Repository
-        run: helm repo index cache --url https://sspreitzer.github.io/helm-tailscale
+        run: helm repo index cache --url https://spreitzer.ch/helm-tailscale
       - name: Create GitHub Pages Artifact
         uses: actions/upload-pages-artifact@v1
         with:
