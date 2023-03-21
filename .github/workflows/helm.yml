@@ -24,7 +24,7 @@ jobs:
       - name: Setup Helm
         uses: azure/setup-helm@v3
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}
       - name: Update Helm Chart dependencies
         run: helm dependency update charts/${{ matrix.chart }}
       - name: Build Helm Chart
