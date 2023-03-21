@@ -1,6 +1,10 @@
 # helm-tailscale
 A collection of Helm charts for the Tailscale VPN mesh
 
+## Helm Charts Documentation
+
+* [tailscale-derp](charts/tailscale-derp/)
+
 ## Add the Helm Repository
 
 ```shell
