@@ -15,7 +15,6 @@ jobs:
     runs-on: ubuntu-latest
     concurrency:
       group: ${{ github.ref }}
-      cancel-in-progress: true
     strategy:
       fail-fast: true
       matrix:
