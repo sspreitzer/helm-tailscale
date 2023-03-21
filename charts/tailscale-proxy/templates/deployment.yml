@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-{{ .Chart.Name }}"
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-{{ .Chart.Name }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-{{ .Chart.Name }}"
+    spec:
+      serviceAccountName: "{{ .Release.Name }}-{{ .Chart.Name }}"
+      initContainers:
+      - name: ipforward-setup
+        image: busybox
+        securityContext:
+          privileged: true
+        command: ["/bin/sh"]
+        args:
+          - -c
+          - sysctl -w net.ipv4.ip_forward=1 net.ipv6.conf.all.forwarding=1
+        resources:
+          requests:
+            cpu: 1m
+            memory: 1Mi
+      containers:
+      - name: tailscale-proxy
+        imagePullPolicy: "{{ .Values.image.pullPolicy }}"
+        image: "{{ .Values.image.name }}:v{{ .Chart.AppVersion }}"
+        env:
+        - name: TS_KUBE_SECRET
+          value: "{{ .Release.Name }}-{{ .Chart.Name }}-auth"
+        - name: TS_USERSPACE
+          value: "false"
+        - name: TS_AUTHKEY
+          valueFrom:
+            secretKeyRef:
+              name: "{{ .Release.Name }}-{{ .Chart.Name }}-auth"
+              key: TS_AUTHKEY
+              optional: true
+        - name: TS_DEST_IP
+          value: "{{ .Values.destination.ip }}"
+        - name: TS_AUTH_ONCE
+          value: "true"
+        securityContext:
+          capabilities:
+            add:
+            - NET_ADMIN

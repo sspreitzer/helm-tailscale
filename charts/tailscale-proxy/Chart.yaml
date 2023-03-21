@@ -1,0 +1,4 @@
+apiVersion: v2
+name: tailscale-proxy
+version: 1.38.0
+appVersion: 1.38.1

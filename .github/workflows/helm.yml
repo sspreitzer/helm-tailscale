@@ -18,6 +18,7 @@ jobs:
       matrix:
         chart:
           - tailscale-derp
+          - tailscale-proxy
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v3

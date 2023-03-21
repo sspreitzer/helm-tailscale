@@ -1,0 +1,10 @@
+auth:
+  existingSecret: ''
+  key: 'tskey-0123456789abcdef'
+
+image:
+  name: ghcr.io/tailscale/tailscale
+  pullPolicy: IfNotPresent
+
+destination:
+  ip: 10.0.0.1
