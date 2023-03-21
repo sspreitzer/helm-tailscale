@@ -6,6 +6,7 @@ on:
     branches:
       - main
     paths:
+      - .github/workflows/helm.yml
       - charts/**
 
 jobs:
