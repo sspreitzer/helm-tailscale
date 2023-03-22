@@ -32,6 +32,8 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           context: containers/${{ matrix.container }}
+          build-args: |
+            VERSION=${{ steps.getversion.outputs.version }}
           push: true
           tags: |
             sspreitzer/${{ matrix.container }}:latest
