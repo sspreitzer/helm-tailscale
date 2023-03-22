@@ -20,7 +20,7 @@ spec:
         command: ["/bin/sh"]
         args:
           - -c
-          - sysctl -w net.ipv4.ip_forward=1 net.ipv6.conf.all.forwarding=1
+          - sysctl -w {{ range $key, $value := .Values.sysctl }}{{ $key }}={{ $value }} {{ end }}
         resources:
           requests:
             cpu: 1m
@@ -30,6 +30,8 @@ spec:
         imagePullPolicy: "{{ .Values.image.pullPolicy }}"
         image: "{{ .Values.image.name }}:v{{ .Chart.AppVersion }}"
         env:
+        - name: TS_EXTRA_ARGS
+          value: "--hostname={{ .Values.hostname }}{{ if not (empty .Values.tags) }} --advertise-tags={{ join "," .Values.tags }}{{ end }}"
         - name: TS_KUBE_SECRET
           value: "{{ .Release.Name }}-{{ .Chart.Name }}-auth"
         - name: TS_USERSPACE
