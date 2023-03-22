@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{ .Release.Name }}-{{ .Chart.Name }}"
+spec:
+  selector:
+    matchLabels:
+      app: "{{ .Release.Name }}-{{ .Chart.Name }}"
+  template:
+    metadata:
+      labels:
+        app: "{{ .Release.Name }}-{{ .Chart.Name }}"
+    spec:
+      containers:
+      - name: "{{ .Release.Name }}-{{ .Chart.Name }}"
+        image: "{{ .Values.image.name }}:v{{ .Chart.AppVersion }}"
+        ports:
+        - containerPort: 80
+        - containerPort: 443
+        - containerPort: 3478
+        args:
+        - "--hostname={{ .Values.hostname }}"

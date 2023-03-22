@@ -1,0 +1,9 @@
+image:
+  name: docker.io/sspreitzer/tailscale-derp
+  pullPolicy: IfNotPresent
+
+service:
+  type: LoadBalancer
+  annotations: {}
+
+hostname: 'derp.example.com'
