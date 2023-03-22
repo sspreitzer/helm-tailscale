@@ -11,6 +11,7 @@ spec:
       labels:
         app: "{{ .Release.Name }}-{{ .Chart.Name }}"
     spec:
+      replicas: 1
       serviceAccountName: "{{ .Release.Name }}-{{ .Chart.Name }}"
       dnsConfig:
         nameservers: {{- toYaml .Values.dns.nameservers | nindent 10 }}
