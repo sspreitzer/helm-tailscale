@@ -6,6 +6,10 @@ A collection of Helm charts for the Tailscale VPN mesh
 * [tailscale-proxy](charts/tailscale-proxy/)
 * [tailscale-derp](charts/tailscale-derp/)
 
+# Container Images Documentation
+
+* [tailscale-derp](containers/tailscale-derp/)
+
 ## Add the Helm Repository
 
 ```shell
