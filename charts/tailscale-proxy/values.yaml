@@ -11,6 +11,14 @@ sysctl:
 
 hostname: 'kubernetes-tailscale-proxy'
 
+tailnetDns: 'tailxxxxx.ts.net'
+
+dns:
+  nameservers:
+    - 100.100.100.100
+  searches:
+    - tailxxxxx.ts.net
+
 image:
   name: ghcr.io/tailscale/tailscale
   pullPolicy: IfNotPresent
