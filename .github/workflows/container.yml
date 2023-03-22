@@ -42,4 +42,5 @@ jobs:
           push: true
           tags: |
             sspreitzer/${{ matrix.container }}:latest
+            sspreitzer/${{ matrix.container }}:stable
             sspreitzer/${{ matrix.container }}:${{ steps.getversion.outputs.version }}
