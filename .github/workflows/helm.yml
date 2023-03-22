@@ -28,20 +28,21 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Restore Helm Chart Cache
-        uses: actions/cache/restore@v3
+      - name: Download Helm Chart Artifact
+        uses: actions/download-artifact@v3
+        continue-on-error: true
         with:
+          name: charts
           path: cache
-          key: charts
       - name: Update Helm Chart dependencies
         run: helm dependency update charts/${{ matrix.chart }}
       - name: Build Helm Chart
         run: helm package charts/${{ matrix.chart }} --destination cache
-      - name: Save Helm Chart Cache
-        uses: actions/cache/save@v3
+      - name: Save Helm Charts Artifact
+        uses: actions/upload-artifact@v3
         with:
+          name: charts
           path: cache
-          key: charts
 
   Helm_Repository:
     runs-on: ubuntu-latest
@@ -55,10 +56,10 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - name: Restore Helm Cache
-        uses: actions/cache/restore@v3
+        uses: actions/download-artifact@v3
         with:
+          name: charts
           path: cache
-          key: charts
       - name: Create Helm Repository
         run: helm repo index cache --url https://spreitzer.ch/helm-tailscale
       - name: Create GitHub Pages Artifact
