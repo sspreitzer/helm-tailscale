@@ -11,8 +11,6 @@ sysctl:
 
 hostname: 'kubernetes-tailscale-proxy'
 
-tailnetDns: 'tailxxxxx.ts.net'
-
 dns:
   nameservers:
     - 100.100.100.100
