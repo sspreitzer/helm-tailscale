@@ -26,6 +26,9 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Read VERSION file
+        id: getversion
+        run: echo "version=$(cat TAILSCALE_VERSION | sed 's|^v||g')" >> $GITHUB_OUTPUT
       - name: Create Cache Directory
         run: mkdir -p cache
       - name: Add Tailscale Helm Repository
@@ -37,7 +40,7 @@ jobs:
       - name: Update Helm Chart dependencies
         run: helm dependency update charts/${{ inputs.chart }}
       - name: Build Helm Chart
-        run: helm package charts/${{ inputs.chart }} --destination cache
+        run: helm package charts/${{ inputs.chart }} --destination cache --app-version ${{ steps.getversion.outputs.version }}
       - name: Create Helm Repository
         run: helm repo index cache --url https://spreitzer.ch/helm-tailscale
       - name: Create GitHub Pages Artifact
