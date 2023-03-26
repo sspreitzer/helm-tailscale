@@ -19,9 +19,6 @@ jobs:
   Helm:
     runs-on: ubuntu-latest
     concurrency: Helm
-    permissions:
-      pages: write
-      id-token: write
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v3

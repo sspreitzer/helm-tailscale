@@ -12,6 +12,9 @@ on:
 jobs:
 
   Tailscale_Proxy:
+    permissions:
+      pages: write
+      id-token: write
     uses: sspreitzer/helm-tailscale/.github/workflows/helm.yml@main
     with:
       chart: tailscale-proxy
