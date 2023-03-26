@@ -1,4 +1,13 @@
 apiVersion: v2
 name: tailscale-proxy
-version: 1.38.7
+description: Tailscale Proxy Helm Chart
+home: https://github.com/sspreitzer/helm-tailscale/tree/main/charts/tailscale-proxy
+sources:
+  - https://github.com/sspreitzer/helm-tailscale.git
+maintainers:
+  - name: Sascha Spreitzer
+    email: sascha@spreitzer.ch
+    url: https://github.com/sspreitzer
+icon: https://tailscale.com/files/apple-touch-icon.png
+version: 1.38.8
 appVersion: 1.38.2

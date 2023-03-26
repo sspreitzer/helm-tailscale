@@ -1,4 +1,13 @@
 apiVersion: v2
 name: tailscale-derp
-version: 1.38.2
+description: Tailscale DERP Relay Server Helm Chart
+home: https://github.com/sspreitzer/helm-tailscale/tree/main/charts/tailscale-derp
+sources:
+  - https://github.com/sspreitzer/helm-tailscale.git
+maintainers:
+  - name: Sascha Spreitzer
+    email: sascha@spreitzer.ch
+    url: https://github.com/sspreitzer
+icon: https://tailscale.com/files/apple-touch-icon.png
+version: 1.38.3
 appVersion: 1.38.2
