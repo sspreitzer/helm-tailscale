@@ -1,23 +1,23 @@
-name: Container Images
+name: Container Image
 
 on:
-  workflow_dispatch: {}
-  push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/container.yml
-      - containers/**
-      - TAILSCALE_VERSION
+  workflow_dispatch:
+    inputs:
+      container:
+        description: Container Image to Build
+        default: tailscale-derp
+        required: true
+        type: string
+  workflow_call:
+    inputs:
+      container:
+        required: true
+        type: string
 
 jobs:
 
   Build_Push:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        container:
-          - tailscale-derp
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v3
@@ -37,11 +37,11 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           platforms: linux/386,linux/amd64,linux/arm/v7,linux/arm64
-          context: containers/${{ matrix.container }}
+          context: containers/${{ inputs.container }}
           build-args: |
             VERSION=${{ steps.getversion.outputs.version }}
           push: true
           tags: |
-            sspreitzer/${{ matrix.container }}:latest
-            sspreitzer/${{ matrix.container }}:stable
-            sspreitzer/${{ matrix.container }}:${{ steps.getversion.outputs.version }}
+            sspreitzer/${{ inputs.container }}:latest
+            sspreitzer/${{ inputs.container }}:stable
+            sspreitzer/${{ inputs.container }}:${{ steps.getversion.outputs.version }}

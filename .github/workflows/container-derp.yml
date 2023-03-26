@@ -1,0 +1,17 @@
+name: Tailscale DERP Container Image
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/container.yml
+      - containers/tailscale-derp/**
+
+jobs:
+
+  Tailscale_Derp:
+    uses: sspreitzer/helm-tailscale/.github/workflows/container.yml@main
+    with:
+      container: tailscale-derp
