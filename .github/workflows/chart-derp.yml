@@ -12,6 +12,6 @@ on:
 jobs:
 
   Tailscale_Proxy:
-    uses: sspreitzer/helm-tailscale/.github/workflows/helm.yml@${{ github.ref }}
+    uses: sspreitzer/helm-tailscale/.github/workflows/helm.yml@main
     with:
       chart: tailscale-derp
