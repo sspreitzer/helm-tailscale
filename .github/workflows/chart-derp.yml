@@ -1,0 +1,17 @@
+name: Tailscale DERP Helm Chart
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/helm.yml
+      - charts/tailscale-derp/**
+
+jobs:
+
+  Tailscale_Proxy:
+    uses: sspreitzer/helm-tailscale/.github/workflows/helm.yml@${{ github.ref }}
+    with:
+      chart: tailscale-derp

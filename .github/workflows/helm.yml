@@ -1,26 +1,27 @@
 name: Helm Charts
 
 on:
-  workflow_dispatch: {}
-  push:
-    branches:
-      - main
-    paths:
-      - .github/workflows/helm.yml
-      - charts/**
+  workflow_call:
+    inputs:
+      chart:
+        required: true
+        type: string
+  workflow_dispatch:
+    inputs:
+      chart:
+        description: Helm Chart to Build
+        default: 'tailscale-proxy'
+        required: true
+        type: string
 
 jobs:
 
-  Helm_Build:
+  Helm:
     runs-on: ubuntu-latest
-    concurrency:
-      group: ${{ github.ref }}
-    strategy:
-      fail-fast: true
-      matrix:
-        chart:
-          - tailscale-derp
-          - tailscale-proxy
+    concurrency: Helm
+    permissions:
+      pages: write
+      id-token: write
     steps:
       - name: Checkout Git repository
         uses: actions/checkout@v3
@@ -28,38 +29,18 @@ jobs:
         uses: azure/setup-helm@v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Download Helm Chart Artifact
-        uses: actions/download-artifact@v3
-        continue-on-error: true
-        with:
-          name: charts
-          path: cache
+      - name: Create Cache Directory
+        run: mkdir -p cache
+      - name: Add Tailscale Helm Repository
+        run: helm repo add tailscale https://spreitzer.ch/helm-tailscale
+      - name: Load Tailscale Repository Index
+        run: helm repo update tailscale
+      - name: Pull All Helm Charts
+        run: helm search repo tailscale -o json | jq '.[] | .name + " " + .version' -r | awk '{ print "helm pull --destination cache/", $1, "--version", $2; }' | xargs -I {} bash -c "{}"
       - name: Update Helm Chart dependencies
-        run: helm dependency update charts/${{ matrix.chart }}
+        run: helm dependency update charts/${{ inputs.chart }}
       - name: Build Helm Chart
-        run: helm package charts/${{ matrix.chart }} --destination cache
-      - name: Save Helm Charts Artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: charts
-          path: cache
-
-  Helm_Repository:
-    runs-on: ubuntu-latest
-    needs: Helm_Build
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - name: Setup Helm
-        uses: azure/setup-helm@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Download Helm Charts Artifact
-        uses: actions/download-artifact@v3
-        with:
-          name: charts
-          path: cache
+        run: helm package charts/${{ inputs.chart }} --destination cache
       - name: Create Helm Repository
         run: helm repo index cache --url https://spreitzer.ch/helm-tailscale
       - name: Create GitHub Pages Artifact
@@ -67,4 +48,4 @@ jobs:
         with:
           path: cache
       - name: Deploy Helm Repository on GitHub Pages
-        uses: actions/deploy-pages@v1
+        uses: actions/deploy-pages@v1      

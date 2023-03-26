@@ -1,0 +1,17 @@
+name: Tailscale Proxy Helm Chart
+
+on:
+  workflow_dispatch: {}
+  push:
+    branches:
+      - main
+    paths:
+      - .github/workflows/helm.yml
+      - charts/tailscale-proxy/**
+
+jobs:
+
+  Tailscale_Proxy:
+    uses: sspreitzer/helm-tailscale/.github/workflows/helm.yml@${{ github.ref }}
+    with:
+      chart: tailscale-proxy
