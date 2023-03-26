@@ -15,3 +15,4 @@ jobs:
     uses: sspreitzer/helm-tailscale/.github/workflows/container.yml@main
     with:
       container: tailscale-derp
+    secrets: inherit

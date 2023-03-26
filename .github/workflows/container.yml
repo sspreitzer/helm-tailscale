@@ -13,6 +13,9 @@ on:
       container:
         required: true
         type: string
+    secrets:
+      DOCKERHUB_PASSWORD:
+        required: true
 
 jobs:
 
