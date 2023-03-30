@@ -22,3 +22,9 @@ image:
   pullPolicy: IfNotPresent
 
 tags: []
+
+up:
+  extra_args: ''
+
+daemon:
+  extra_args: ''
