@@ -40,7 +40,7 @@ spec:
           value: "--hostname={{ .Values.hostname }}{{ if not (empty .Values.tags) }} --advertise-tags={{ join "," .Values.tags }}{{ end }}{{ if not (empty .Values.up.extra_args) }} {{ .Values.up.extra_args }}{{ end }}"
 {{- if not (empty .Values.daemon.extra_args) }}
         - name: TS_TAILSCALED_EXTRA_ARGS
-          values: "{{ .Values.daemon.extra_args }}"
+          value: "{{ .Values.daemon.extra_args }}"
 {{- end }}
         - name: TS_KUBE_SECRET
           value: "{{ .Release.Name }}-{{ .Chart.Name }}-auth"
