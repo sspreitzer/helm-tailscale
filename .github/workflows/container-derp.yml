@@ -8,6 +8,7 @@ on:
     paths:
       - .github/workflows/container.yml
       - containers/tailscale-derp/**
+      - TAILSCALE_VERSION
 
 jobs:
 
