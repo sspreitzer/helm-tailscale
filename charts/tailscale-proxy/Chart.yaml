@@ -9,5 +9,5 @@ maintainers:
     email: sascha@spreitzer.ch
     url: https://github.com/sspreitzer
 icon: https://tailscale.com/files/apple-touch-icon.png
-version: 1.38.10
-appVersion: 1.38.2
+version: 1.44.0
+appVersion: 1.44.0
